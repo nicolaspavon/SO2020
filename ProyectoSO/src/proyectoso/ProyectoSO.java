@@ -6,6 +6,7 @@
 package proyectoso;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import javafx.util.Pair;
@@ -20,12 +21,14 @@ public class ProyectoSO {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        List<Pair<Integer, Vehiculo>> lista = leer();
+        LinkedList<Pair<Integer, Vehiculo>> lista = leer();
+        Planificador planificador = new Planificador();
+        System.out.println(lista.size());
         
-        Reloj reloj = new Reloj(5, 3);
-        Casilla casilla0 = new Casilla(0, reloj);
-        Casilla casilla1 = new Casilla(1, reloj);
-        Casilla casilla2 = new Casilla(2, reloj);
+        Reloj reloj = new Reloj(5, 3, lista, planificador);
+        Casilla casilla0 = new Casilla(0, reloj, planificador);
+        Casilla casilla1 = new Casilla(1, reloj, planificador);
+        Casilla casilla2 = new Casilla(2, reloj, planificador);
         
         reloj.start();
         casilla0.start();
@@ -33,9 +36,9 @@ public class ProyectoSO {
         casilla2.start();
     }
     
-    static public List<Pair<Integer, Vehiculo>> leer(){
+    static public LinkedList<Pair<Integer, Vehiculo>> leer(){
         Scanner in = new Scanner(System.in);
-        List<Pair<Integer, Vehiculo>> list = new ArrayList<>();
+        LinkedList<Pair<Integer, Vehiculo>> list = new LinkedList<>();
         boolean endInput = false;
         do{
           String line = in.nextLine();

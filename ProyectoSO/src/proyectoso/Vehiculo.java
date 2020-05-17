@@ -35,4 +35,8 @@ public class Vehiculo {
         Vehiculo v = new Vehiculo(datos[0], tipo);
         return v;
     }
+    
+    public String info(){
+        return this.matricula;
+    }
 }

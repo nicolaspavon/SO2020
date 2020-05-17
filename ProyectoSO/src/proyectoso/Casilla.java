@@ -12,8 +12,10 @@ package proyectoso;
 public class Casilla extends Thread {
     private int casilla;
     private Reloj reloj;
+    private Planificador planif;
     
-    public Casilla(int numeroCasilla, Reloj reloj) {
+    public Casilla(int numeroCasilla, Reloj reloj, Planificador planif) {
+        this.planif = planif;
         this.casilla = numeroCasilla;
         this.reloj = reloj;
     }
@@ -23,9 +25,15 @@ public class Casilla extends Thread {
         while(!reloj.finDelTiempo()) {
             try {                            
                 reloj.empiezaCasilla(casilla);
+                
+                Vehiculo auto = this.planif.quitarAuto();      
+                String info = "nadie";
+                if(auto != null){
+                    info = auto.info();
+                }                
 
                 System.out.println(
-                    "La casilla " + casilla + " trabajo en ciclo " + reloj.getContador());
+                    "La casilla " + casilla + " trabajo en ciclo " + reloj.getContador() + " y procesó a " + info);
 
                 reloj.terminaCasilla(casilla);
             } catch (InterruptedException ex) {
