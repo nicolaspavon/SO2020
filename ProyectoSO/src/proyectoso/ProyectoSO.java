@@ -15,7 +15,15 @@ public class ProyectoSO {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Reloj reloj = new Reloj(5, 3);
+        Casilla casilla0 = new Casilla(0, reloj);
+        Casilla casilla1 = new Casilla(1, reloj);
+        Casilla casilla2 = new Casilla(2, reloj);
+        
+        reloj.start();
+        casilla0.start();
+        casilla1.start();
+        casilla2.start();
     }
     
 }
