@@ -25,7 +25,7 @@ public class ProyectoSO {
         Planificador planificador = new Planificador();
         System.out.println(lista.size());
         
-        Reloj reloj = new Reloj(5, 3, lista, planificador);
+        Reloj reloj = new Reloj(20, 3, lista, planificador);
         Casilla casilla0 = new Casilla(0, reloj, planificador);
         Casilla casilla1 = new Casilla(1, reloj, planificador);
         Casilla casilla2 = new Casilla(2, reloj, planificador);
@@ -51,6 +51,6 @@ public class ProyectoSO {
                 new Pair<>(Integer.parseInt(datos[0]), Vehiculo.parsear(datos[1])));
           }           
         }while(!endInput);
-    return list;
-  }
+        return list;
+    }
 }

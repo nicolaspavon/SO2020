@@ -26,7 +26,7 @@ public class Planificador {
         try{
             semaforo.acquire();
             fila.add(auto);
-            System.out.println("Vehiculo " + auto.info() + " recibido");
+            System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido");
             semaforo.release();
         }catch(InterruptedException ex){
             

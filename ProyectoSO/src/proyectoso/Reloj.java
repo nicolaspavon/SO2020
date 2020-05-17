@@ -58,9 +58,10 @@ public class Reloj extends Thread {
             try{
               for(Semaphore s : s2) {
                   s.acquire();
-              }
-              System.out.println("Cycle " + contador + " ended");        
+              }    
               contador++;
+              System.out.println("");
+              System.out.println("\u001b[37m" + "Reloj:         CICLO " + contador + " INICIADO");        
               
               while (!lista.isEmpty() && lista.peek().getKey() == this.contador){
                   this.planificador.recibirAuto(lista.pop().getValue());
