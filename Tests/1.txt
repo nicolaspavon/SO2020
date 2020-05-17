@@ -1,0 +1,8 @@
+1-a1,auto
+1-c1,camion
+2-a2,auto
+4-o1,omnibus
+4-c2,camion
+4-e1,emergencia
+5-a3,auto
+*
