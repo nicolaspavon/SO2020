@@ -23,17 +23,15 @@ public class ProyectoSO {
     public static void main(String[] args) {
         LinkedList<Pair<Integer, Vehiculo>> lista = leer();
         Planificador planificador = new Planificador();
-        System.out.println(lista.size());
         
-        Reloj reloj = new Reloj(20, 3, lista, planificador);
-        Casilla casilla0 = new Casilla(0, reloj, planificador);
-        Casilla casilla1 = new Casilla(1, reloj, planificador);
-        Casilla casilla2 = new Casilla(2, reloj, planificador);
+        int cantidadCasillas = 5;
+        Reloj reloj = new Reloj(20, cantidadCasillas, lista, planificador);
         
         reloj.start();
-        casilla0.start();
-        casilla1.start();
-        casilla2.start();
+        for (int i = 0; i < cantidadCasillas; i++) {
+            Casilla casilla = new Casilla(i, reloj, planificador);
+            casilla.start();
+        }
     }
     
     static public LinkedList<Pair<Integer, Vehiculo>> leer(){
