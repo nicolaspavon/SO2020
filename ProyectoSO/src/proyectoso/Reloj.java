@@ -6,10 +6,8 @@
 package proyectoso;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 import javafx.util.Pair;
-import static proyectoso.ProyectoSO.leer;
 
 /**
  *

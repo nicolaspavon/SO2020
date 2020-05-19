@@ -5,9 +5,7 @@
  */
 package proyectoso;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 import javafx.util.Pair;
 
@@ -44,9 +42,9 @@ public class ProyectoSO {
           if(line.equals("*")){
             endInput = true;
           }else{
-            String[] datos = line.split("-");
+            String[] datos = line.split(",");
             list.add(
-                new Pair<>(Integer.parseInt(datos[0]), Vehiculo.parsear(datos[1])));
+                new Pair<>(Integer.parseInt(datos[0]), Vehiculo.parsear(datos[1],datos[2])));
           }           
         }while(!endInput);
         return list;
