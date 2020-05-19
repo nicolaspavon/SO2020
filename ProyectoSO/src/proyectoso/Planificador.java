@@ -39,7 +39,6 @@ public class Planificador {
         try{
             semaforo.acquire();
             auto = fila.poll();
-            System.out.println("\u001B[34m" + "Planificador: Vehiculo " + auto.info() + " despachado");
             semaforo.release();
         }catch(InterruptedException ex){
             

@@ -22,8 +22,8 @@ public class ProyectoSO {
         LinkedList<Pair<Integer, Vehiculo>> lista = leer();
         Planificador planificador = new Planificador();
         
-        int cantidadCasillas = 5;
-        Reloj reloj = new Reloj(20, cantidadCasillas, lista, planificador);
+        int cantidadCasillas = 10;
+        Reloj reloj = new Reloj(150, cantidadCasillas, lista, planificador);
         
         reloj.start();
         for (int i = 0; i < cantidadCasillas; i++) {
@@ -42,7 +42,7 @@ public class ProyectoSO {
           if(line.equals("*")){
             endInput = true;
           }else{
-            String[] datos = line.split(",");
+            String[] datos = line.split(";");
             list.add(
                 new Pair<>(Integer.parseInt(datos[0]), Vehiculo.parsear(datos[1],datos[2])));
           }           
