@@ -25,11 +25,10 @@ public class Vehiculo {
         this.tipo = tipo;
     }
     
-    public static Vehiculo parsear(String raw) {
-        String[] datos = raw.split(",");
+    public static Vehiculo parsear(String name,String tipoV) {
         TipoVehiculo tipo;
         int tiempo;
-        switch(datos[1]) {
+        switch(tipoV) {
             case "auto": 
                 tipo = TipoVehiculo.Auto; 
                 tiempo = 4;
@@ -50,10 +49,10 @@ public class Vehiculo {
                 tipo = TipoVehiculo.Emergencia; 
                 tiempo = 2;
             break;
-            default: throw new Error("Tipo vehiculo desconocido " + raw);
+            default: throw new Error("Tipo vehiculo desconocido: " + tipoV);
         }
                 
-        Vehiculo v = new Vehiculo(datos[0], tipo, tiempo);
+        Vehiculo v = new Vehiculo(name, tipo, tiempo);
         return v;
     }
     
