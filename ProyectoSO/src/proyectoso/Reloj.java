@@ -57,6 +57,7 @@ public class Reloj extends Thread {
               for(Semaphore s : s2) {
                   s.acquire();
               }    
+              
               contador++;
               System.out.println("");
               System.out.println("\u001b[37m" + "Reloj:         CICLO " + contador + " INICIADO");        

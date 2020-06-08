@@ -12,14 +12,27 @@ package proyectoso;
 public class Casilla extends Thread {
     private int casilla;
     private Reloj reloj;
-    private Planificador planif;
     private Vehiculo vehiculoActual = null;
     private int ciclosRestantesVehiculoActual = 0;
+    private Fila fila;
     
-    public Casilla(int numeroCasilla, Reloj reloj, Planificador planif) {
-        this.planif = planif;
+    public Casilla(int numeroCasilla, Reloj reloj) {
         this.casilla = numeroCasilla;
         this.reloj = reloj;
+        this.fila = new Fila();
+    }
+    
+    public int getIdCasilla(){
+        return this.casilla;
+    }
+    
+    public int getTiempoRestante(){
+        return this.fila.getTiempo() + this.ciclosRestantesVehiculoActual;
+    }
+    
+    //Este código se ejecuta en el hilo del reloj
+    public void agregarAuto(Vehiculo auto){
+        this.fila.recibirAuto(auto);
     }
     
     @Override
@@ -29,7 +42,7 @@ public class Casilla extends Thread {
                 reloj.empiezaCasilla(casilla);
                 
                 if (ciclosRestantesVehiculoActual == 0){
-                    vehiculoActual = this.planif.quitarAuto();
+                    vehiculoActual = this.fila.quitarAuto();
                     if(vehiculoActual != null){
                         ciclosRestantesVehiculoActual = vehiculoActual.ciclos();
                         System.out.println("\u001b[33m" +"Casilla " + casilla + ":     " + vehiculoActual.info() + 

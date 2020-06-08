@@ -5,9 +5,7 @@
  */
 package proyectoso;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -15,36 +13,24 @@ import java.util.concurrent.Semaphore;
  * @author nico
  */
 public class Planificador {
-    private LinkedList<Vehiculo> fila = new LinkedList();
-    private Semaphore semaforo = new Semaphore(1);
-    
+    private LinkedList<Casilla> listaCasillas = new LinkedList();    
     public Planificador() {
-        
+    }
+    
+    public void tomaCasillas(LinkedList<Casilla> casillas){
+        this.listaCasillas = casillas;
+    }
+    
+    private void ordenarCasillas(){
+        this.listaCasillas.sort((casilla1, casilla2) -> {
+            return casilla1.getTiempoRestante() - casilla2.getTiempoRestante();
+        });
     }
     
     public void recibirAuto(Vehiculo auto){
-        try{
-            semaforo.acquire();
-            fila.add(auto);
-            System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido");
-            semaforo.release();
-        }catch(InterruptedException ex){
-            
-        }
+        this.ordenarCasillas();
+        Casilla primerCasilla = listaCasillas.getFirst();
+        primerCasilla.agregarAuto(auto);
+        System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido e insertado en casilla: " + primerCasilla.getIdCasilla());
     }
-    
-    public Vehiculo quitarAuto(){
-        Vehiculo auto = null;
-        
-        try{
-            semaforo.acquire();
-            auto = fila.poll();
-            semaforo.release();
-        }catch(InterruptedException ex){
-            
-        }
-        
-        return auto;
-    }
-    
 }
