@@ -14,6 +14,9 @@ import java.util.concurrent.Semaphore;
  */
 public class Planificador {
     private LinkedList<Casilla> listaCasillas = new LinkedList();    
+    private LinkedList<Vehiculo> listaVehiculosActuales = new LinkedList();    
+    
+    
     public Planificador() {
     }
     
@@ -27,10 +30,29 @@ public class Planificador {
         });
     }
     
-    public void recibirAuto(Vehiculo auto){
-        this.ordenarCasillas();
-        Casilla primerCasilla = listaCasillas.getFirst();
-        primerCasilla.agregarAuto(auto);
-        System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido e insertado en casilla: " + primerCasilla.getIdCasilla());
+    private void ordenarVehiculosActuales(){
+        this.listaVehiculosActuales.sort((vehiculo1, vehiculo2) -> {
+            return vehiculo1.getPrioridad() - vehiculo2.getPrioridad();
+        });
+    }
+            
+    public void aniadirVehiculoActual(Vehiculo vehiculo){
+        this.listaVehiculosActuales.add(vehiculo);
+    }
+    
+    private void cleanVehiculosActuales( ){
+        this.listaVehiculosActuales.clear();
+    }
+            
+    public void asignarVehiculosACasillas(){
+        this.ordenarVehiculosActuales();
+             
+        for (Vehiculo auto : this.listaVehiculosActuales) {
+            this.ordenarCasillas();
+            Casilla primerCasilla = listaCasillas.getFirst();
+            primerCasilla.agregarAuto(auto);
+            System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido e insertado en casilla: " + primerCasilla.getIdCasilla());
+        }
+        this.cleanVehiculosActuales();
     }
 }

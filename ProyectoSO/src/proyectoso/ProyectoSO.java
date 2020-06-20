@@ -14,7 +14,6 @@ import javafx.util.Pair;
  * @author nico
  */
 public class ProyectoSO {
-
     /**
      * @param args the command line arguments
      */
