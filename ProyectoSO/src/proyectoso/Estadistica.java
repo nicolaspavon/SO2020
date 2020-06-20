@@ -37,23 +37,23 @@ public class Estadistica {
         for(Vehiculo v : this.vehiculos){
             switch(v.getTipo()) {
                 case Auto: 
-                    this.tiempoTotalAutos += v.getHoraEgreso() - v.getHoraIngreso();
+                    this.tiempoTotalAutos += v.getHoraEgreso() - v.getHoraIngreso() - v.ciclos();
                     this.totalAutos ++;
                 break;
                 case Omnibus: 
-                    this.tiempoTotalOmnibus += v.getHoraEgreso() - v.getHoraIngreso();
+                    this.tiempoTotalOmnibus += v.getHoraEgreso() - v.getHoraIngreso() - v.ciclos();
                     this.totalOmnibus ++;
                 break;
                 case Camion: 
-                    this.tiempoTotalCamiones += v.getHoraEgreso() - v.getHoraIngreso();
+                    this.tiempoTotalCamiones += v.getHoraEgreso() - v.getHoraIngreso() - v.ciclos();
                     this.totalCamiones ++;
                 break;
                 case Camionsito: 
-                    this.tiempoTotalCamionsitos += v.getHoraEgreso() - v.getHoraIngreso();
+                    this.tiempoTotalCamionsitos += v.getHoraEgreso() - v.getHoraIngreso() - v.ciclos();
                     this.totalCamionsitos ++;
                 break;
                 case Emergencia: 
-                    this.tiempoTotalEmergencias += v.getHoraEgreso() - v.getHoraIngreso();
+                    this.tiempoTotalEmergencias += v.getHoraEgreso() - v.getHoraIngreso() - v.ciclos();
                     this.totalEmergencias ++;
                 break;
                 default: throw new Error("Tipo vehiculo desconocido: " + v.getTipo());
@@ -76,9 +76,9 @@ public class Estadistica {
         System.out.println("");
         System.out.println("\u001b[32m" + "Promedio EMERGENCIAS: " + this.promedioEmergencias);
         System.out.println("");
-        System.out.println("\u001b[32m" + "Promedio AUTOS: " + this.promedioAutos);
-        System.out.println("");
         System.out.println("\u001b[32m" + "Promedio OMNIBUS: " + this.promedioOmnibus);
+        System.out.println("");
+        System.out.println("\u001b[32m" + "Promedio AUTOS: " + this.promedioAutos);
         System.out.println("");
         System.out.println("\u001b[32m" + "Promedio CAMIONSITOS: " + this.promedioCamionsitos);
         System.out.println("");

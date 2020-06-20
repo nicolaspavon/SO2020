@@ -25,7 +25,7 @@ public class ProyectoSO {
         LinkedList<Casilla> listaCasillas = new LinkedList();
         
         int cantidadCasillas = 5;
-        Reloj reloj = new Reloj(70, cantidadCasillas, lista, planificador);
+        Reloj reloj = new Reloj(400, cantidadCasillas, lista, planificador);
         
         for (int i = 0; i < cantidadCasillas; i++) {
             Casilla casilla = new Casilla(i, reloj);
