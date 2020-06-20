@@ -19,6 +19,8 @@ public class Vehiculo extends Evento{
     private TipoVehiculo tipo;
     private int tiempo;
     private int prioridad;
+    private int horaIngresoPeaje;
+    private int horaEgresoPeaje;
     
     public Vehiculo (String matricula, TipoVehiculo tipo, int tiempo, int prioridad){
         this.tiempo = tiempo;
@@ -66,6 +68,26 @@ public class Vehiculo extends Evento{
     
     public String info(){
         return this.matricula;
+    }
+    
+    public void setHoraIngreso(int hora){
+        this.horaIngresoPeaje = hora;
+    }
+    
+    public void setHoraEgreso(int hora){
+        this.horaEgresoPeaje = hora;
+    }
+    
+    public int getHoraEgreso(){
+        return this.horaEgresoPeaje;
+    }
+    
+    public int getHoraIngreso(){
+        return this.horaIngresoPeaje;
+    }
+    
+    public TipoVehiculo getTipo(){
+        return this.tipo;
     }
     
     public int ciclos(){

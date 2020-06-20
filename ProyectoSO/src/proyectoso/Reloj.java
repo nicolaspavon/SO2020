@@ -17,6 +17,7 @@ public class Reloj extends Thread {
     private Semaphore s1[];
     private Semaphore s2[];
     LinkedList<Pair<Integer, Evento>> listaEventos;
+    LinkedList<Vehiculo> listaVehiculosProcesados = new LinkedList<Vehiculo>();
     private Planificador planificador;
     
     private int topeCiclos;
@@ -33,9 +34,13 @@ public class Reloj extends Thread {
             s2[i] = new Semaphore(1);
         }
     }
-    
+   
     public synchronized boolean finDelTiempo() {
         return contador > topeCiclos;
+    }
+    
+    public LinkedList<Vehiculo> getListaVehiculosProcesados(){
+        return this.listaVehiculosProcesados;
     }
     
     public synchronized int getContador() {
@@ -65,7 +70,10 @@ public class Reloj extends Thread {
               while (!listaEventos.isEmpty() && listaEventos.peek().getKey() == this.contador){
                 Evento evento = listaEventos.pop().getValue();
                 if (evento instanceof Vehiculo){
-                    this.planificador.aniadirVehiculoActual((Vehiculo)evento);
+                    Vehiculo auto = (Vehiculo)evento;
+                    auto.setHoraIngreso(contador);
+                    this.planificador.aniadirVehiculoActual(auto);
+                    this.listaVehiculosProcesados.add(auto);
                 } else {
                     this.planificador.eventoCasilla((EventoCasilla)evento);
                 }
@@ -73,7 +81,6 @@ public class Reloj extends Thread {
               }
               
               this.planificador.asignarVehiculosACasillas();
-              
               for (Semaphore s : s1) {
                   s.release();
               }
@@ -83,6 +90,8 @@ public class Reloj extends Thread {
                 ex.printStackTrace();
             }
         }
+        
+        
     }
     
 }

@@ -88,11 +88,14 @@ public class Casilla extends Thread {
                 reloj.empiezaCasilla(casilla);
                 
                 if (ciclosRestantesVehiculoActual == 0){
+                    if (vehiculoActual != null){
+                        vehiculoActual.setHoraEgreso(reloj.getContador());
+                    }
                     vehiculoActual = this.fila.quitarAuto();
                     if(vehiculoActual != null){
                         ciclosRestantesVehiculoActual = vehiculoActual.ciclos();
                         System.out.println("\u001b[33m" +"Casilla " + casilla + ":     " + vehiculoActual.info() + 
-                                " recibido (" + ciclosRestantesVehiculoActual+ "/" +vehiculoActual.ciclos()+") (" + this.fila.getCantidadVehiculos() + " restantes)");
+                                " recibido (" + ciclosRestantesVehiculoActual+ "/" +vehiculoActual.ciclos()+") (" + this.fila.getCantidadVehiculos() + " restantes) (Tiempo restante fila: " + this.fila.getTiempo() + ")");
                         
                         ciclosRestantesVehiculoActual --;
                     }else{
@@ -104,7 +107,7 @@ public class Casilla extends Thread {
                     }  
                 }else{
                     System.out.println("\u001b[33m" + "Casilla " + casilla + ":     procesando a " + vehiculoActual.info() + 
-                            "(" + ciclosRestantesVehiculoActual+ "/" +vehiculoActual.ciclos()+") (" + this.fila.getCantidadVehiculos() + " restantes)");
+                            "(" + ciclosRestantesVehiculoActual+ "/" +vehiculoActual.ciclos()+") (" + this.fila.getCantidadVehiculos() + " restantes) (Tiempo restante fila: " + this.fila.getTiempo() + ")");
                     ciclosRestantesVehiculoActual --;
                 }
                 

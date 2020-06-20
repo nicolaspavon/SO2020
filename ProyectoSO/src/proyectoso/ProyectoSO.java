@@ -7,6 +7,8 @@ package proyectoso;
 
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.util.Pair;
 
 /**
@@ -17,13 +19,13 @@ public class ProyectoSO {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         LinkedList<Pair<Integer, Evento>> lista = leer();
         Planificador planificador = new Planificador();
         LinkedList<Casilla> listaCasillas = new LinkedList();
         
-        int cantidadCasillas = 2;
-        Reloj reloj = new Reloj(50, cantidadCasillas, lista, planificador);
+        int cantidadCasillas = 5;
+        Reloj reloj = new Reloj(70, cantidadCasillas, lista, planificador);
         
         for (int i = 0; i < cantidadCasillas; i++) {
             Casilla casilla = new Casilla(i, reloj);
@@ -34,7 +36,26 @@ public class ProyectoSO {
         
         reloj.start();
         listaCasillas.forEach((casilla) -> { casilla.start(); });
+        
+        
+        reloj.join();
+        listaCasillas.forEach((casilla) -> { 
+            try {
+                casilla.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoSO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        LinkedList<Vehiculo> listaVehiculosProc = reloj.getListaVehiculosProcesados();
+        for(Vehiculo v : listaVehiculosProc){
+            System.out.println(v.info() + " Ingreso en " + v.getHoraIngreso() + " y salio en " + v.getHoraEgreso());
+        }
+        
+        Estadistica est = new Estadistica(listaVehiculosProc);
+        est.printEstadisticas();
     }
+    
     
     static public LinkedList<Pair<Integer, Evento>> leer(){
         Scanner in = new Scanner(System.in);
