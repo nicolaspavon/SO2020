@@ -23,7 +23,7 @@ public class ProyectoSO {
         LinkedList<Casilla> listaCasillas = new LinkedList();
         
         int cantidadCasillas = 2;
-        Reloj reloj = new Reloj(20, cantidadCasillas, lista, planificador);
+        Reloj reloj = new Reloj(50, cantidadCasillas, lista, planificador);
         
         for (int i = 0; i < cantidadCasillas; i++) {
             Casilla casilla = new Casilla(i, reloj);

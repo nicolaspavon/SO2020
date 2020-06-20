@@ -39,6 +39,7 @@ public class Planificador {
         this.listaVehiculosActuales.add(vehiculo);
     }
 
+    // Buscar casilla ACTIVA
     public Casilla buscarCasillaActiva(int id){
         for(Casilla c : this.listaCasillas){
             if(id == c.getIdCasilla() && !c.estaBloqueada()){
@@ -48,8 +49,30 @@ public class Planificador {
         return null;
     }
     
-    //TODO: QUE PASA SI LAS CASILLAS DE AL LADO ESTAN BLOQUEADAS
-    public void romperCasilla(RoturaCasilla casilla){
+    // Buscar casilla INACTIVA
+    public Casilla buscarCasillaInActiva(int id){
+        for(Casilla c : this.listaCasillas){
+            if(id == c.getIdCasilla() && c.estaBloqueada()){
+                return c;
+            }
+        }
+        return null;
+    }
+    
+    public void eventoCasilla(EventoCasilla casilla) {
+        if(casilla.getTipo().equals("roto")){
+            this.romperCasilla(casilla);
+        }else{
+            this.arreglarCasilla(casilla);
+        }
+    }
+    
+    public void arreglarCasilla(EventoCasilla casilla){
+        Casilla casillaRota = this.buscarCasillaInActiva(casilla.getId());
+        casillaRota.teArreglaron();
+    }
+    
+    public void romperCasilla(EventoCasilla casilla){
         Casilla casillaRota = this.buscarCasillaActiva(casilla.getId());
         if (casillaRota != null){
             Fila filaHuerfana = casillaRota.teRompiste();
@@ -98,7 +121,7 @@ public class Planificador {
                 primerCasilla.agregarAuto(auto);
                 System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido e insertado en casilla: " + primerCasilla.getIdCasilla());
             }else{
-                System.out.println("\u001B[31m" + "Todas las casillas están rotas, vehiculos trancados en el ether");
+                System.out.println("\u001B[31m" + "Todas las casillas están rotas, vehiculos trancados en el ether (" + this.listaVehiculosActuales.size() + ")");
                 break;
             }
         }

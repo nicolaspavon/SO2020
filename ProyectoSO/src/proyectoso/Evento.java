@@ -13,9 +13,12 @@ public class Evento {
     
     public static Evento parsear(String name,String tipoV) {
         switch(tipoV) {
-            case "rotura": 
-                RoturaCasilla casilla = new RoturaCasilla(name);
-                return casilla;
+            case "roto": 
+                EventoCasilla casillaRota = new EventoCasilla(name, "roto");
+                return casillaRota;
+            case "arreglado": 
+                EventoCasilla casillaArreglada = new EventoCasilla(name, "arreglado");
+                return casillaArreglada;
             default: 
                 return Vehiculo.parsear(name, tipoV);
                 

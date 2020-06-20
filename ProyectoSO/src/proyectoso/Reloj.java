@@ -67,7 +67,7 @@ public class Reloj extends Thread {
                 if (evento instanceof Vehiculo){
                     this.planificador.aniadirVehiculoActual((Vehiculo)evento);
                 } else {
-                    this.planificador.romperCasilla((RoturaCasilla)evento);
+                    this.planificador.eventoCasilla((EventoCasilla)evento);
                 }
                 
               }

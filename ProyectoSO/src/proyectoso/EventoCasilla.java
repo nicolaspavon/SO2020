@@ -9,14 +9,20 @@ package proyectoso;
  *
  * @author nico
  */
-public class RoturaCasilla extends Evento{
+public class EventoCasilla extends Evento{
     private int id;
+    private String tipo;
     
-    public RoturaCasilla (String id){
+    public EventoCasilla (String id, String tipo){
         this.id = Integer.parseInt(id);
+        this.tipo = tipo;
     }
     
     public int getId(){
         return this.id;
+    }
+    
+    public String getTipo(){
+        return this.tipo;
     }
 }

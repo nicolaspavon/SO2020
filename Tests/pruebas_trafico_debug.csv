@@ -4,13 +4,15 @@
 2;170;auto;
 2;171;auto;
 2;172;auto;
-3;1;rotura;
+3;1;roto;
 3;27612W;camion;
 4;167;auto;
 4;168;auto;
-4;0;rotura;
+4;0;roto;
 5;169;auto;
 6;170;auto;
 7;171;auto;
+7;1;emergencia;
 7;172;auto;
+8;0;arreglado;
 *
