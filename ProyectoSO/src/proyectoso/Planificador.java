@@ -40,7 +40,7 @@ public class Planificador {
     }
 
     // Buscar casilla ACTIVA
-    public Casilla buscarCasillaActiva(int id){
+    private Casilla buscarCasillaActiva(int id){
         for(Casilla c : this.listaCasillas){
             if(id == c.getIdCasilla() && !c.estaBloqueada()){
                 return c;
@@ -50,7 +50,7 @@ public class Planificador {
     }
     
     // Buscar casilla INACTIVA
-    public Casilla buscarCasillaInActiva(int id){
+    private Casilla buscarCasillaInActiva(int id){
         for(Casilla c : this.listaCasillas){
             if(id == c.getIdCasilla() && c.estaBloqueada()){
                 return c;
@@ -67,42 +67,78 @@ public class Planificador {
         }
     }
     
-    public void arreglarCasilla(EventoCasilla casilla){
+    private void arreglarCasilla(EventoCasilla casilla){
         Casilla casillaRota = this.buscarCasillaInActiva(casilla.getId());
         casillaRota.teArreglaron();
     }
     
-    public void romperCasilla(EventoCasilla casilla){
+    private Casilla casillaCercanaDisponibleArriba(int id){
+        Casilla casillaArriba = null;
+        for (int i = id +1; i < this.listaCasillas.size(); i++) {
+            casillaArriba = this.buscarCasillaActiva(i);
+            if (casillaArriba != null){
+                return casillaArriba;
+            }
+        }
+        return casillaArriba;
+    }
+    
+    private Casilla casillaCercanaDisponibleAbajo(int id){
+        Casilla casillaAbajo = null;
+        for (int i = id -1; i >= 0; i--) {
+            casillaAbajo = this.buscarCasillaActiva(i);
+            if (casillaAbajo != null){
+                return casillaAbajo;
+            }
+        }
+        return casillaAbajo;
+    }
+    
+    private Casilla casillaConMenosEspera(int id){
+        Casilla casillaArriba = casillaCercanaDisponibleArriba(id);
+        Casilla casillaAbajo = casillaCercanaDisponibleAbajo(id);
+        
+        if (casillaArriba != null && casillaAbajo != null){
+            if (casillaAbajo.getTiempoRestante() > casillaArriba.getTiempoRestante()){
+                return casillaArriba;
+            }else{
+                return casillaAbajo;
+            }           
+        } else if(casillaArriba != null) {
+            return casillaArriba;
+        } else if(casillaAbajo != null) {
+            return casillaAbajo;
+        } else{
+            return null;
+        }
+    }
+    
+    private void romperCasilla(EventoCasilla casilla){
         Casilla casillaRota = this.buscarCasillaActiva(casilla.getId());
         if (casillaRota != null){
             Fila filaHuerfana = casillaRota.teRompiste();
-            Casilla casillaArriba = this.buscarCasillaActiva(casilla.getId() + 1);
-            Casilla casillaAbajo = this.buscarCasillaActiva(casilla.getId() - 1);
-            if (casillaArriba != null && casillaAbajo != null){
-                if (casillaAbajo.getTiempoRestante() > casillaArriba.getTiempoRestante()){
-                    casillaArriba.adoptarFila(filaHuerfana);
-                }else{
-                    casillaAbajo.adoptarFila(filaHuerfana);
-                }           
-            } else if(casillaArriba != null) {
-                casillaArriba.adoptarFila(filaHuerfana);
-            } else if(casillaAbajo != null) {
-                casillaAbajo.adoptarFila(filaHuerfana);
-            } else{
-                System.out.println("\u001B[31m" + "Caso borde no hay casilla adoptadora, se envian los vehiculos huerfanos al ether");
-                int cantAutos = filaHuerfana.getCantidadVehiculos();
-                for (int i = 0; i < cantAutos; i++) {
-                    Vehiculo auto = filaHuerfana.quitarAuto();
-                    listaVehiculosActuales.add(auto);
-                }
+            Casilla casillaAdoptadora = this.casillaConMenosEspera(casilla.getId());
+            if (casillaAdoptadora != null){
+                casillaAdoptadora.adoptarFila(filaHuerfana);
+            }else{
+                this.enviarVehiculosAlEther(filaHuerfana);
             }
         }else{
             System.out.println("\u001B[31m" + "Se rompio una casilla inexistente:  Id " + casilla.getId());
         }
     }
     
+    private void enviarVehiculosAlEther(Fila filaHuerfana){
+        System.out.println("\u001B[31m" + "Caso borde no hay casilla adoptadora, se envian los vehiculos huerfanos al ether");
+        int cantAutos = filaHuerfana.getCantidadVehiculos();
+        for (int i = 0; i < cantAutos; i++) {
+            Vehiculo auto = filaHuerfana.quitarAuto();
+            listaVehiculosActuales.add(auto);
+        }
+    }
+    
     //TODO: Agregar casilla reservada
-    public Casilla getPrimerCasillaDisponible(){
+    private Casilla getPrimerCasillaDisponible(){
         for(Casilla casilla : listaCasillas){
             if (!casilla.estaBloqueada()){
                 return casilla;
@@ -112,7 +148,8 @@ public class Planificador {
     }
             
     public void asignarVehiculosACasillas() throws Exception{
-        this.ordenarVehiculosActuales();             
+        this.ordenarVehiculosActuales();    
+        
         while (!this.listaVehiculosActuales.isEmpty()) {
             this.ordenarCasillas();
             Casilla primerCasilla = this.getPrimerCasillaDisponible();
