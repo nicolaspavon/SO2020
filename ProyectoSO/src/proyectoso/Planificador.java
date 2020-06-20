@@ -93,8 +93,8 @@ public class Planificador {
         while (!this.listaVehiculosActuales.isEmpty()) {
             this.ordenarCasillas();
             Casilla primerCasilla = this.getPrimerCasillaDisponible();
-            Vehiculo auto = listaVehiculosActuales.pollFirst();
             if (primerCasilla != null){
+                Vehiculo auto = listaVehiculosActuales.pollFirst();
                 primerCasilla.agregarAuto(auto);
                 System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido e insertado en casilla: " + primerCasilla.getIdCasilla());
             }else{
