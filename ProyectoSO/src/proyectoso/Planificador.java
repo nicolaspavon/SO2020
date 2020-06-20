@@ -141,19 +141,57 @@ public class Planificador {
         }
     }
     
-    //TODO: Agregar casilla reservada
     private Casilla getPrimerCasillaDisponible(){
         for(Casilla casilla : listaCasillas){
-            if (!casilla.estaBloqueada()){
+            if (!casilla.estaBloqueada() && ! casilla.estaReservada()){
                 return casilla;
             }
         }
         return null;
     }
+    
+    private Casilla buscarCasillaReservada(){
+        for (Casilla c : listaCasillas){
+            if (c.estaReservada()){
+                return c;
+            }
+        }
+        return null;
+    }
+    
+    private void atenderEmergencias() throws Exception{
+        
+        while (!this.listaVehiculosActuales.isEmpty()) {
+            if (this.listaVehiculosActuales.peek().esEmergencia()){
+                Casilla yaReservada = buscarCasillaReservada();
+                if (yaReservada != null){
+                    Vehiculo emergencia = listaVehiculosActuales.pollFirst();
+                    yaReservada.agregarAuto(emergencia);
+                    System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + emergencia.info() + " recibido e insertado en casilla: " + yaReservada.getIdCasilla());
+                }else{
+                    this.ordenarCasillas();
+                    Casilla casillaMenosOcupada = this.getPrimerCasillaDisponible();
+                    if (casillaMenosOcupada != null){
+                        Fila filaHuerfana = casillaMenosOcupada.getFila();
+                        this.adoptarFila(casillaMenosOcupada.getIdCasilla(), filaHuerfana);
+                        Vehiculo emergencia = listaVehiculosActuales.pollFirst();
+                        casillaMenosOcupada.agregarAuto(emergencia);
+                        System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + emergencia.info() + " recibido e insertado en casilla: " + casillaMenosOcupada.getIdCasilla());
+                    }else{
+                        System.out.println("\u001B[31m" + "No hay casillas libres para migrar los vehiculos, vehiculos trancados en el ether (" + this.listaVehiculosActuales.size() + ")");
+                        break;
+                    }
+                }
+            }else{
+                //Caso no hay emergencia
+                break;
+            }
+        }
+    }
             
     public void asignarVehiculosACasillas() throws Exception{
         this.ordenarVehiculosActuales();    
-        
+        this.atenderEmergencias();
         while (!this.listaVehiculosActuales.isEmpty()) {
             this.ordenarCasillas();
             Casilla primerCasilla = this.getPrimerCasillaDisponible();

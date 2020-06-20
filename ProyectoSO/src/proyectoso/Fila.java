@@ -33,6 +33,15 @@ public class Fila {
         return this.vehiculos.size();
     }
     
+    public boolean hayEmergencia(){
+        for(Vehiculo v : vehiculos){
+            if (v.esEmergencia()){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public Vehiculo quitarAuto(){
         Vehiculo auto = null;
         auto = vehiculos.poll();

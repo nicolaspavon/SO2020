@@ -75,4 +75,8 @@ public class Vehiculo extends Evento{
     public int getPrioridad(){
         return this.prioridad;
     }
+    
+    public boolean esEmergencia(){
+        return this.tipo == TipoVehiculo.Emergencia;
+    }
 }

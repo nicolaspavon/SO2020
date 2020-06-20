@@ -32,6 +32,10 @@ public class Casilla extends Thread {
         return this.bloqueada;
     }
     
+    public boolean estaReservada(){
+        return this.fila.hayEmergencia();
+    }
+    
     public int getTiempoRestante(){
         return this.fila.getTiempo() + this.ciclosRestantesVehiculoActual;
     }
@@ -47,10 +51,12 @@ public class Casilla extends Thread {
     //Este código se ejecuta en el hilo del reloj
     public Fila teRompiste(){
         this.bloqueada = true;
-        return this.fila;
+        return this.getFila();
     }
     
-    
+    public Fila getFila(){
+        return this.fila;
+    }
     
     //Este código se ejecuta en el hilo del reloj
     public void teArreglaron(){
@@ -102,8 +108,6 @@ public class Casilla extends Thread {
                     ciclosRestantesVehiculoActual --;
                 }
                 
-
-
                 reloj.terminaCasilla(casilla);
             } catch (InterruptedException ex) {
                 
