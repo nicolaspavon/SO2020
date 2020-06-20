@@ -50,6 +50,8 @@ public class Casilla extends Thread {
         return this.fila;
     }
     
+    
+    
     //Este código se ejecuta en el hilo del reloj
     public void teArreglaron(){
         this.bloqueada = false;

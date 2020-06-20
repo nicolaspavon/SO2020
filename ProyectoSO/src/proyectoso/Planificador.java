@@ -67,6 +67,16 @@ public class Planificador {
         }
     }
     
+    private void romperCasilla(EventoCasilla casilla){
+        Casilla casillaRota = this.buscarCasillaActiva(casilla.getId());
+        if (casillaRota != null){
+            Fila filaHuerfana = casillaRota.teRompiste();
+            this.adoptarFila(casilla.getId(), filaHuerfana);
+        }else{
+            System.out.println("\u001B[31m" + "Se rompio una casilla inexistente:  Id " + casilla.getId());
+        }
+    }
+    
     private void arreglarCasilla(EventoCasilla casilla){
         Casilla casillaRota = this.buscarCasillaInActiva(casilla.getId());
         casillaRota.teArreglaron();
@@ -113,18 +123,12 @@ public class Planificador {
         }
     }
     
-    private void romperCasilla(EventoCasilla casilla){
-        Casilla casillaRota = this.buscarCasillaActiva(casilla.getId());
-        if (casillaRota != null){
-            Fila filaHuerfana = casillaRota.teRompiste();
-            Casilla casillaAdoptadora = this.casillaConMenosEspera(casilla.getId());
-            if (casillaAdoptadora != null){
-                casillaAdoptadora.adoptarFila(filaHuerfana);
-            }else{
-                this.enviarVehiculosAlEther(filaHuerfana);
-            }
+    private void adoptarFila(int id, Fila filaHuerfana){
+        Casilla casillaAdoptadora = this.casillaConMenosEspera(id);
+        if (casillaAdoptadora != null){
+            casillaAdoptadora.adoptarFila(filaHuerfana);
         }else{
-            System.out.println("\u001B[31m" + "Se rompio una casilla inexistente:  Id " + casilla.getId());
+            this.enviarVehiculosAlEther(filaHuerfana);
         }
     }
     

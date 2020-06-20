@@ -80,7 +80,7 @@ public class Reloj extends Thread {
             }catch(InterruptedException ex){
                 System.out.println(ex.toString());
             }catch(Exception ex){
-                System.out.println(ex.toString());
+                ex.printStackTrace();
             }
         }
     }
