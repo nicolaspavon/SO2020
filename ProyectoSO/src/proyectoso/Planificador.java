@@ -6,7 +6,6 @@
 package proyectoso;
 
 import java.util.LinkedList;
-import java.util.concurrent.Semaphore;
 
 /**
  *
@@ -39,20 +38,69 @@ public class Planificador {
     public void aniadirVehiculoActual(Vehiculo vehiculo){
         this.listaVehiculosActuales.add(vehiculo);
     }
+
+    public Casilla buscarCasillaActiva(int id){
+        for(Casilla c : this.listaCasillas){
+            if(id == c.getIdCasilla() && !c.estaBloqueada()){
+                return c;
+            }
+        }
+        return null;
+    }
     
-    private void cleanVehiculosActuales( ){
-        this.listaVehiculosActuales.clear();
+    //TODO: QUE PASA SI LAS CASILLAS DE AL LADO ESTAN BLOQUEADAS
+    public void romperCasilla(RoturaCasilla casilla){
+        Casilla casillaRota = this.buscarCasillaActiva(casilla.getId());
+        if (casillaRota != null){
+            Fila filaHuerfana = casillaRota.teRompiste();
+            Casilla casillaArriba = this.buscarCasillaActiva(casilla.getId() + 1);
+            Casilla casillaAbajo = this.buscarCasillaActiva(casilla.getId() - 1);
+            if (casillaArriba != null && casillaAbajo != null){
+                if (casillaAbajo.getTiempoRestante() > casillaArriba.getTiempoRestante()){
+                    casillaArriba.adoptarFila(filaHuerfana);
+                }else{
+                    casillaAbajo.adoptarFila(filaHuerfana);
+                }           
+            } else if(casillaArriba != null) {
+                casillaArriba.adoptarFila(filaHuerfana);
+            } else if(casillaAbajo != null) {
+                casillaAbajo.adoptarFila(filaHuerfana);
+            } else{
+                System.out.println("\u001B[31m" + "Caso borde no hay casilla adoptadora, se envian los vehiculos huerfanos al ether");
+                int cantAutos = filaHuerfana.getCantidadVehiculos();
+                for (int i = 0; i < cantAutos; i++) {
+                    Vehiculo auto = filaHuerfana.quitarAuto();
+                    listaVehiculosActuales.add(auto);
+                }
+            }
+        }else{
+            System.out.println("\u001B[31m" + "Se rompio una casilla inexistente:  Id " + casilla.getId());
+        }
+    }
+    
+    //TODO: Agregar casilla reservada
+    public Casilla getPrimerCasillaDisponible(){
+        for(Casilla casilla : listaCasillas){
+            if (!casilla.estaBloqueada()){
+                return casilla;
+            }
+        }
+        return null;
     }
             
-    public void asignarVehiculosACasillas(){
-        this.ordenarVehiculosActuales();
-             
-        for (Vehiculo auto : this.listaVehiculosActuales) {
+    public void asignarVehiculosACasillas() throws Exception{
+        this.ordenarVehiculosActuales();             
+        while (!this.listaVehiculosActuales.isEmpty()) {
             this.ordenarCasillas();
-            Casilla primerCasilla = listaCasillas.getFirst();
-            primerCasilla.agregarAuto(auto);
-            System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido e insertado en casilla: " + primerCasilla.getIdCasilla());
+            Casilla primerCasilla = this.getPrimerCasillaDisponible();
+            Vehiculo auto = listaVehiculosActuales.pollFirst();
+            if (primerCasilla != null){
+                primerCasilla.agregarAuto(auto);
+                System.out.println("\u001b[32m" + "Planificador:  Vehiculo " + auto.info() + " recibido e insertado en casilla: " + primerCasilla.getIdCasilla());
+            }else{
+                System.out.println("\u001B[31m" + "Todas las casillas están rotas, vehiculos trancados en el ether");
+                break;
+            }
         }
-        this.cleanVehiculosActuales();
     }
 }

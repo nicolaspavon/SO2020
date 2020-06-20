@@ -16,7 +16,7 @@ import javafx.util.Pair;
 public class Reloj extends Thread {
     private Semaphore s1[];
     private Semaphore s2[];
-    LinkedList<Pair<Integer, Vehiculo>> listaAutosInicial;
+    LinkedList<Pair<Integer, Evento>> listaEventos;
     private Planificador planificador;
     
     private int topeCiclos;
@@ -24,7 +24,7 @@ public class Reloj extends Thread {
 
     public Reloj(int topeCiclos, int casillas, LinkedList lista, Planificador planificador) {
         this.planificador = planificador;
-        this.listaAutosInicial = lista;
+        this.listaEventos = lista;
         this.topeCiclos = topeCiclos;
         s1 = new Semaphore[casillas];
         s2 = new Semaphore[casillas];
@@ -62,16 +62,25 @@ public class Reloj extends Thread {
               System.out.println("");
               System.out.println("\u001b[37m" + "Reloj:         CICLO " + contador + " INICIADO");        
               
-              while (!listaAutosInicial.isEmpty() && listaAutosInicial.peek().getKey() == this.contador){
-                  this.planificador.aniadirVehiculoActual(listaAutosInicial.pop().getValue());
+              while (!listaEventos.isEmpty() && listaEventos.peek().getKey() == this.contador){
+                Evento evento = listaEventos.pop().getValue();
+                if (evento instanceof Vehiculo){
+                    this.planificador.aniadirVehiculoActual((Vehiculo)evento);
+                } else {
+                    this.planificador.romperCasilla((RoturaCasilla)evento);
+                }
+                
               }
+              
               this.planificador.asignarVehiculosACasillas();
               
               for (Semaphore s : s1) {
                   s.release();
               }
             }catch(InterruptedException ex){
-        
+                System.out.println(ex.toString());
+            }catch(Exception ex){
+                System.out.println(ex.toString());
             }
         }
     }

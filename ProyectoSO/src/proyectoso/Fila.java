@@ -29,6 +29,10 @@ public class Fila {
         this.tiempoDeEspera += auto.ciclos();
     }
     
+    public int getCantidadVehiculos(){
+        return this.vehiculos.size();
+    }
+    
     public Vehiculo quitarAuto(){
         Vehiculo auto = null;
         auto = vehiculos.poll();

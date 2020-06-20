@@ -10,7 +10,7 @@ package proyectoso;
  * @author nico
  */
 
-public class Vehiculo {
+public class Vehiculo extends Evento{
     public enum TipoVehiculo { 
         Auto, Omnibus, Camion, Emergencia, Camionsito
     };
@@ -20,7 +20,7 @@ public class Vehiculo {
     private int tiempo;
     private int prioridad;
     
-    public Vehiculo (String matricula, TipoVehiculo tipo, int tiempo, int prioridad) {
+    public Vehiculo (String matricula, TipoVehiculo tipo, int tiempo, int prioridad){
         this.tiempo = tiempo;
         this.matricula = matricula;
         this.tipo = tipo;

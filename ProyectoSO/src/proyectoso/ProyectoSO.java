@@ -18,11 +18,11 @@ public class ProyectoSO {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LinkedList<Pair<Integer, Vehiculo>> lista = leer();
+        LinkedList<Pair<Integer, Evento>> lista = leer();
         Planificador planificador = new Planificador();
         LinkedList<Casilla> listaCasillas = new LinkedList();
         
-        int cantidadCasillas = 3;
+        int cantidadCasillas = 2;
         Reloj reloj = new Reloj(20, cantidadCasillas, lista, planificador);
         
         for (int i = 0; i < cantidadCasillas; i++) {
@@ -36,9 +36,9 @@ public class ProyectoSO {
         listaCasillas.forEach((casilla) -> { casilla.start(); });
     }
     
-    static public LinkedList<Pair<Integer, Vehiculo>> leer(){
+    static public LinkedList<Pair<Integer, Evento>> leer(){
         Scanner in = new Scanner(System.in);
-        LinkedList<Pair<Integer, Vehiculo>> list = new LinkedList<>();
+        LinkedList<Pair<Integer, Evento>> list = new LinkedList<>();
         boolean endInput = false;
         do{
           String line = in.nextLine();
@@ -48,7 +48,7 @@ public class ProyectoSO {
           }else{
             String[] datos = line.split(";");
             list.add(
-                new Pair<>(Integer.parseInt(datos[0]), Vehiculo.parsear(datos[1],datos[2])));
+                new Pair<>(Integer.parseInt(datos[0]), Evento.parsear(datos[1],datos[2])));
           }           
         }while(!endInput);
         return list;
