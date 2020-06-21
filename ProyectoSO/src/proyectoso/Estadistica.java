@@ -78,8 +78,8 @@ public class Estadistica {
     }
     
     public void printEstadisticas(){
-        System.out.println(this.tiempoTotalEmergencias + " total " + this.totalEmergencias);
-        System.out.println(this.tiempoTotalCamionsitos + " total " + this.totalCamionsitos);
+        //System.out.println(this.tiempoTotalEmergencias + " total " + this.totalEmergencias);
+        //System.out.println(this.tiempoTotalCamionsitos + " total " + this.totalCamionsitos);
         System.out.println("\u001b[32m" + "------------------------------------------------------------------------------------------");
         System.out.println("");
         System.out.println("");

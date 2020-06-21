@@ -16,62 +16,76 @@ import javafx.util.Pair;
  * @author nico
  */
 public class ProyectoSO {
+
     /**
      * @param args the command line arguments
      */
+
     public static void main(String[] args) throws InterruptedException {
-        LinkedList<Pair<Integer, Evento>> lista = leer();
-        Planificador planificador = new Planificador();
-        LinkedList<Casilla> listaCasillas = new LinkedList();
-        
-        int cantidadCasillas = 3;
-        Reloj reloj = new Reloj(cantidadCasillas, lista, planificador);
-        
-        for (int i = 0; i < cantidadCasillas; i++) {
-            Casilla casilla = new Casilla(i, reloj);
-            listaCasillas.add(casilla);
-        }
-        
-        planificador.tomaCasillas(listaCasillas);
-        
-        reloj.start();
-        listaCasillas.forEach((casilla) -> { casilla.start(); });
-        
-        
-        reloj.join();
-        listaCasillas.forEach((casilla) -> { 
-            try {
-                casilla.join();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ProyectoSO.class.getName()).log(Level.SEVERE, null, ex);
+        Scanner scan = new Scanner(System.in);
+        System.out.println("*********** BIENVENIDO AL SIMULADOR PEAJE DE PANDO ***********");
+        System.out.println("");
+        System.out.print("Opciones del simulador:  \n 1) Ingresar al simulador \n 2) Salir \n");
+        System.out.print("\nIngrese opción: ");
+        int op = scan.nextInt();
+        if (op == 1) {
+            System.out.println("Ingrese la cantidad de casillas a ser simuladas: ");
+            int cantidadCasillas = scan.nextInt();
+            LinkedList<Pair<Integer, Evento>> lista = leer("../Tests/Traficos/trafico_liviano_10_ciclos.csv");
+            Planificador planificador = new Planificador();
+            LinkedList<Casilla> listaCasillas = new LinkedList();
+            Reloj reloj = new Reloj(cantidadCasillas, lista, planificador);
+
+            for (int i = 0; i < cantidadCasillas; i++) {
+                Casilla casilla = new Casilla(i, reloj);
+                listaCasillas.add(casilla);
             }
-        });
-        
-        LinkedList<Vehiculo> listaVehiculosProc = reloj.getListaVehiculosProcesados();
-        
-        Estadistica est = new Estadistica(listaVehiculosProc, listaCasillas, reloj.getContador());
-        est.printEstadisticas();
-        
-        TestGenerator generador = new TestGenerator();
-        generador.generateTest();
+
+            planificador.tomaCasillas(listaCasillas);
+
+            reloj.start();
+            listaCasillas.forEach((casilla) -> {
+                casilla.start();
+            });
+
+            reloj.join();
+            listaCasillas.forEach((casilla) -> {
+                try {
+                    casilla.join();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ProyectoSO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+
+            LinkedList<Vehiculo> listaVehiculosProc = reloj.getListaVehiculosProcesados();
+
+            Estadistica est = new Estadistica(listaVehiculosProc, listaCasillas, reloj.getContador());
+            est.printEstadisticas();
+
+           // TestGenerator generador = new TestGenerator();
+           // generador.generateTest();
+        } else {
+            System.out.println("Hasta luego!");
+        }
     }
-    
-    
-    static public LinkedList<Pair<Integer, Evento>> leer(){
-        Scanner in = new Scanner(System.in);
+
+    static public LinkedList<Pair<Integer, Evento>> leer(String nombreCompletoArchivo) {
+        String[] lista = ManejadorArchivosGenerico.leerArchivo(nombreCompletoArchivo);
+        int i = 0;
         LinkedList<Pair<Integer, Evento>> list = new LinkedList<>();
         boolean endInput = false;
-        do{
-          String line = in.nextLine();
-          line = line.trim();
-          if(line.equals("*")){
-            endInput = true;
-          }else{
-            String[] datos = line.split(";");
-            list.add(
-                new Pair<>(Integer.parseInt(datos[0]), Evento.parsear(datos[1],datos[2])));
-          }           
-        }while(!endInput);
+        do {
+            String line = lista[i];
+            line = line.trim();
+            if (line.equals("*")) {
+                endInput = true;
+            } else {
+                String[] datos = line.split(";");
+                list.add(
+                        new Pair<>(Integer.parseInt(datos[0]), Evento.parsear(datos[1], datos[2])));
+            }
+            i++;
+        } while (!endInput);
         return list;
     }
 }
