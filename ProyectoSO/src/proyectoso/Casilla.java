@@ -16,12 +16,16 @@ public class Casilla extends Thread {
     private int ciclosRestantesVehiculoActual = 0;
     private Fila fila;
     private boolean bloqueada;
+    private int inactividad = 0;
     
     public Casilla(int numeroCasilla, Reloj reloj) {
         this.casilla = numeroCasilla;
         this.reloj = reloj;
         this.fila = new Fila();
         this.bloqueada = false;
+    }
+    public int getInactividad(){
+        return this.inactividad;
     }
     
     public int getIdCasilla(){
@@ -106,6 +110,7 @@ public class Casilla extends Thread {
                         if (this.estaBloqueada()){
                             System.out.println("\u001B[31m" + "Casilla " + casilla + ":     Casilla rota");
                         }else{
+                            this.inactividad ++;
                             System.out.println("\u001b[33m" + "Casilla " + casilla + ":     Nada para procesar");
                         }
                     }  

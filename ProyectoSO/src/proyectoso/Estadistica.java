@@ -31,8 +31,12 @@ public class Estadistica {
     private double promedioOmnibus = 0;
     private double promedioCamionsitos = 0;
     private double promedioCamiones = 0;
+    
+    private double[] promedioInactividad;
+    private LinkedList<Casilla> casillas;
             
-    public Estadistica(LinkedList<Vehiculo> vehiculos){
+    public Estadistica(LinkedList<Vehiculo> vehiculos, LinkedList<Casilla> casillas, int contador){
+        this.casillas = casillas;
         this.vehiculos = vehiculos;
         for(Vehiculo v : this.vehiculos){
             switch(v.getTipo()) {
@@ -66,9 +70,16 @@ public class Estadistica {
         this.promedioEmergencias = (this.totalEmergencias != 0 ? this.tiempoTotalEmergencias / this.totalEmergencias : 0);
         this.promedioOmnibus = (this.totalOmnibus != 0 ? this.tiempoTotalOmnibus / this.totalOmnibus : 0);
         
+        this.promedioInactividad = new double[casillas.size()];
+        for (int i = 0; i < casillas.size(); i++) {
+            this.promedioInactividad[i] = casillas.get(i).getInactividad() * 100 / contador;
+        }
+        
     }
     
     public void printEstadisticas(){
+        System.out.println(this.tiempoTotalEmergencias + " total " + this.totalEmergencias);
+        System.out.println(this.tiempoTotalCamionsitos + " total " + this.totalCamionsitos);
         System.out.println("\u001b[32m" + "------------------------------------------------------------------------------------------");
         System.out.println("");
         System.out.println("");
@@ -83,6 +94,12 @@ public class Estadistica {
         System.out.println("\u001b[32m" + "Promedio CAMIONSITOS: " + this.promedioCamionsitos);
         System.out.println("");
         System.out.println("\u001b[32m" + "Promedio CAMIONES: " + this.promedioCamiones);
+        System.out.println("");
+        System.out.println("\u001b[32m" + "------------------------------------------------------------------------------------------");
+        System.out.println("");
+        for (int i = 0; i < casillas.size(); i++) {
+            System.out.println("\u001b[32m" + "Promedio de inactividad casilla " + this.casillas.get(i).getIdCasilla() + ": " +  this.promedioInactividad[i]); 
+        }
     }
 
     
