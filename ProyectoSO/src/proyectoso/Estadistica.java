@@ -101,6 +101,4 @@ public class Estadistica {
             System.out.println("\u001b[32m" + "Promedio de inactividad casilla " + this.casillas.get(i).getIdCasilla() + ": " +  this.promedioInactividad[i]); 
         }
     }
-
-    
 }

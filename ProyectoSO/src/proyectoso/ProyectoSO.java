@@ -51,6 +51,9 @@ public class ProyectoSO {
         
         Estadistica est = new Estadistica(listaVehiculosProc, listaCasillas, reloj.getContador());
         est.printEstadisticas();
+        
+        TestGenerator generador = new TestGenerator();
+        generador.generateTest();
     }
     
     
