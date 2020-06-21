@@ -23,7 +23,7 @@ public class Reloj extends Thread {
     private int topeCiclos;
     private int contador = 0;
 
-    public Reloj(int topeCiclos, int casillas, LinkedList lista, Planificador planificador) {
+    public Reloj(int casillas, LinkedList lista, Planificador planificador) {
         this.planificador = planificador;
         this.listaEventos = lista;
         this.topeCiclos = topeCiclos;
@@ -36,7 +36,10 @@ public class Reloj extends Thread {
     }
    
     public synchronized boolean finDelTiempo() {
-        return contador > topeCiclos;
+        if (listaEventos.isEmpty() && planificador.casillasFinalizadas()){
+            return true;
+        }
+        return false;
     }
     
     public LinkedList<Vehiculo> getListaVehiculosProcesados(){

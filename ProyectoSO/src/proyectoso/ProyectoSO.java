@@ -25,7 +25,7 @@ public class ProyectoSO {
         LinkedList<Casilla> listaCasillas = new LinkedList();
         
         int cantidadCasillas = 5;
-        Reloj reloj = new Reloj(400, cantidadCasillas, lista, planificador);
+        Reloj reloj = new Reloj(cantidadCasillas, lista, planificador);
         
         for (int i = 0; i < cantidadCasillas; i++) {
             Casilla casilla = new Casilla(i, reloj);
@@ -48,9 +48,6 @@ public class ProyectoSO {
         });
         
         LinkedList<Vehiculo> listaVehiculosProc = reloj.getListaVehiculosProcesados();
-        for(Vehiculo v : listaVehiculosProc){
-            System.out.println(v.info() + " Ingreso en " + v.getHoraIngreso() + " y salio en " + v.getHoraEgreso());
-        }
         
         Estadistica est = new Estadistica(listaVehiculosProc);
         est.printEstadisticas();

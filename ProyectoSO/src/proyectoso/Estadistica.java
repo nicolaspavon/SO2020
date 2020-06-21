@@ -48,7 +48,7 @@ public class Estadistica {
                     this.tiempoTotalCamiones += v.getHoraEgreso() - v.getHoraIngreso() - v.ciclos();
                     this.totalCamiones ++;
                 break;
-                case Camionsito: 
+                case Camioncito: 
                     this.tiempoTotalCamionsitos += v.getHoraEgreso() - v.getHoraIngreso() - v.ciclos();
                     this.totalCamionsitos ++;
                 break;

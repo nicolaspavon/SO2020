@@ -81,6 +81,10 @@ public class Casilla extends Thread {
         this.fila = filaNueva;
     }
     
+    public boolean ocupada(){
+        return vehiculoActual != null;
+    }
+    
     @Override
     public void run () {
         while(!reloj.finDelTiempo()) {
@@ -95,7 +99,7 @@ public class Casilla extends Thread {
                     if(vehiculoActual != null){
                         ciclosRestantesVehiculoActual = vehiculoActual.ciclos();
                         System.out.println("\u001b[33m" +"Casilla " + casilla + ":     " + vehiculoActual.info() + 
-                                " recibido (" + ciclosRestantesVehiculoActual+ "/" +vehiculoActual.ciclos()+") (" + this.fila.getCantidadVehiculos() + " restantes) (Tiempo restante fila: " + this.fila.getTiempo() + ")");
+                                " recibido (" + ciclosRestantesVehiculoActual+ "/" +vehiculoActual.ciclos()+") (" + this.fila.getCantidadVehiculos() + " restantes) (Tiempo restante casilla: " + this.getTiempoRestante() + ")");
                         
                         ciclosRestantesVehiculoActual --;
                     }else{
@@ -107,7 +111,7 @@ public class Casilla extends Thread {
                     }  
                 }else{
                     System.out.println("\u001b[33m" + "Casilla " + casilla + ":     procesando a " + vehiculoActual.info() + 
-                            "(" + ciclosRestantesVehiculoActual+ "/" +vehiculoActual.ciclos()+") (" + this.fila.getCantidadVehiculos() + " restantes) (Tiempo restante fila: " + this.fila.getTiempo() + ")");
+                            "(" + ciclosRestantesVehiculoActual+ "/" +vehiculoActual.ciclos()+") (" + this.fila.getCantidadVehiculos() + " restantes) (Tiempo restante casilla: " + this.getTiempoRestante() + ")");
                     ciclosRestantesVehiculoActual --;
                 }
                 

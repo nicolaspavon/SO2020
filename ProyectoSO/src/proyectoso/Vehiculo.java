@@ -12,7 +12,7 @@ package proyectoso;
 
 public class Vehiculo extends Evento{
     public enum TipoVehiculo { 
-        Auto, Omnibus, Camion, Emergencia, Camionsito
+        Auto, Omnibus, Camion, Emergencia, Camioncito
     };
     
     private String matricula;
@@ -49,8 +49,8 @@ public class Vehiculo extends Evento{
                 tiempo = 7;
                 prioridad = 4;
             break;
-            case "camionsito": 
-                tipo = TipoVehiculo.Camionsito; 
+            case "camioncito": 
+                tipo = TipoVehiculo.Camioncito; 
                 tiempo = 5;
                 prioridad = 3;
             break;
