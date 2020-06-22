@@ -185,7 +185,8 @@ public class Planificador {
                         Casilla casillaAdoptadora = this.adoptarFila(casillaMenosOcupada.getIdCasilla(), filaHuerfana);
                         Vehiculo emergencia = listaVehiculosActuales.pollFirst();
                         casillaMenosOcupada.agregarAuto(emergencia);
-                        System.out.println("\u001B[31m" + "Planificador:  Vehiculo de emergencia " + emergencia.info() + " insertado en casilla " + casillaMenosOcupada.getIdCasilla()+". Vehiculos de la casilla "+casillaMenosOcupada.getIdCasilla()+" enviados a casilla "+ casillaAdoptadora.getIdCasilla());
+                        if (casillaAdoptadora != null)
+                            System.out.println("\u001B[31m" + "Planificador:  Vehiculo de emergencia " + emergencia.info() + " insertado en casilla " + casillaMenosOcupada.getIdCasilla()+". Vehiculos de la casilla "+casillaMenosOcupada.getIdCasilla()+" enviados a casilla "+ casillaAdoptadora.getIdCasilla());
                     }else{
                         System.out.println("\u001B[31m" + "No hay casillas libres para migrar los vehiculos, vehiculos trancados en el ether (" + this.listaVehiculosActuales.size() + ")");
                         break;
