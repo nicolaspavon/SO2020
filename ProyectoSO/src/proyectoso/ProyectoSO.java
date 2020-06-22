@@ -29,9 +29,11 @@ public class ProyectoSO {
         System.out.print("\nIngrese opción: ");
         int op = scan.nextInt();
         if (op == 1) {
-            System.out.println("Ingrese la cantidad de casillas a ser simuladas: ");
+            System.out.print("Ingrese la cantidad de casillas a ser simuladas: ");
             int cantidadCasillas = scan.nextInt();
-            LinkedList<Pair<Integer, Evento>> lista = leer("../Tests/Traficos/Trafico_ultra_pesado.csv");
+            System.out.print("Ingrese el nombre del archivo ubicado en Test/Traficos sin la extensión:" );
+            String nombreArch = scan.next();
+            LinkedList<Pair<Integer, Evento>> lista = leer("../Tests/Traficos/" + nombreArch + ".csv");
             Planificador planificador = new Planificador();
             LinkedList<Casilla> listaCasillas = new LinkedList();
             Reloj reloj = new Reloj(cantidadCasillas, lista, planificador);
